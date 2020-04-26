@@ -4,9 +4,9 @@ defmodule Chirp.Timeline.Post do
 
   schema "posts" do
     field :body, :string
-    field :likes_cout, :integer
-    field :reports_count, :integer
-    field :username, :string
+    field :likes_cout, :integer, default: 0
+    field :reports_count, :integer, default: 0
+    field :username, :string, default: "Someone Special"
 
     timestamps()
   end
@@ -14,7 +14,8 @@ defmodule Chirp.Timeline.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:username, :body, :likes_cout, :reports_count])
-    |> validate_required([:username, :body, :likes_cout, :reports_count])
+    |> cast(attrs, [:body])
+    |> validate_required([:body])
+    |> validate_length(:body, min: 2, max: 45)
   end
 end
